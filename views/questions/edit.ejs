@@ -1,0 +1,17 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="container col-6 offset-3 my-5 border border-3">
+    <div class="container d-flex justify-content-center align-items-center my-2 mx-3">
+        <h1>Edit Page</h1>
+    </div>
+    <form class="my-3 mx-3 validated-form" action="/collegeQuora/<%= reqQuestion._id%>/edit?_method=PUT" method="POST" novalidate>
+        <div class="mb-3">
+            <label for="question" class="form-label">Question : </label>
+            <input type="text" class="form-control" id="question" value="<%= reqQuestion.question %>" name="question[question]" required>
+        </div>
+        <div class="container d-flex justify-content-center align-items-center mt-2 mb-3">
+            <button class="btn btn-primary">DONE</button>
+        </div>
+    </form>
+    <a href="/collegeQuora/">Back</a>
+</div>

@@ -1,0 +1,281 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="my-3">
+    <div class="h1 font-weight-bold" style="color: blueviolet; text-transform: capitalize;"> <%= reqQuestion.heading %> </div>
+    <span class="h3 font-weight-bold "> <%= reqQuestion.question %> </span>
+</div>
+<hr>
+
+<div id="infoBlock" class="row" >
+    <div class="col">
+        <div class="container d-flex justify-content-start align-items-center p-1" >
+            <span class="lead"> <%= reqQuestion.answers.length %> answers <span class="blockquote-footer"> Asked on  <%= `${reqQuestion.date} at ${reqQuestion.time}` %> </span> </span>
+        </div>
+    </div>
+    <div class="col">
+        <div class="container d-flex justify-content-end align-items-center">
+            <% if( currentUser && reqQuestion.authorId == currentUser._id){ %> 
+                <form action="/collegeQuora/<%= reqQuestion._id %>?_method=DELETE" method="POST" class="container d-flex justify-content-center align-items-center">
+                    <button class="btn btn-sm btn-danger mx-3">DELETE</button>
+                    <a href="/collegeQuora/<%= reqQuestion._id %>/edit" class="btn btn-sm btn-primary" role="button" class="btn btn-success rounded-pill " data-bs-toggle="modal" data-bs-target="#editQuestion">Edit</a>
+                </form>
+            <% } %> 
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!-- Button trigger modal -->
+<div class="d-flex justify-content-center align-items-center mb-5">
+    <button type="button" class="btn btn-success rounded-pill " data-bs-toggle="modal" data-bs-target="#addAnswer">
+        Answer    
+    </button>
+</div>
+  
+<!-- Modal for answer-->
+<div class="modal fade" id="addAnswer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Answer :</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/collegeQuora/<%= reqQuestion._id %>/review" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+            <div class="mb-3">
+                <textarea class="form-control" name="answer" id="answer" cols="15" rows="10" required ></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please enter a valid answer.
+                </div>
+            </div>
+            <div class="d-flex justify-content-start align-items-center my-1">
+                <div class="mb-3">
+                    <!-- <i class="bi bi-images"></i> -->
+                    <label for="images" class="form-label"></label>
+                    <input class="form-control form-control-sm" type="file" id="images" name="image" accept=".png, .jpg, .jpeg" multiple>
+                </div>
+            </div>
+            <div class="modal-footer container d-flex justify-content-center align-items-center"> 
+                <button class="btn btn-success ">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal for question editing-->
+<div class="modal fade" id="editQuestion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Question :</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="my-3 mx-3 validated-form" action="/collegeQuora/<%= reqQuestion._id%>/edit?_method=PUT" method="POST" novalidate>
+            <div class="mb-3">
+                <label for="heading" class="form-label">Heading : </label>
+                <input type="text" class="form-control" id="heading" value="<%= reqQuestion.heading %>" name="question[heading]" required>
+                <label for="question" class="form-label">Question : </label>
+                <input type="text" class="form-control" id="question" value="<%= reqQuestion.question %>" name="question[question]" required>
+            </div>
+            <div class="container d-flex justify-content-center align-items-center mt-2 mb-3">
+                <button class="btn btn-primary">DONE</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% for(let ans of reqQuestion.answers){ %> 
+    <div class="card my-2">
+        <div class="card-body d-flex" >
+            <div class="" style=" width: min-content; margin-right: 1em;">
+                <!-- UPVOTE AND DOWNVOTE LOGIC -->
+
+                <div id="upvote">
+                    <a href="/collegeQuora/<%= reqQuestion._id %>/upvote/<%= ans._id %>">
+                        <i class="bi bi-hand-thumbs-up-fill"></i>
+                    </a>
+                </div>
+                <%= ans.votes %> 
+                <div id="downvote">
+                    <a id="downvote" href="/collegeQuora/<%= reqQuestion._id %>/downvote/<%= ans._id %>">
+                        <i class="bi bi-hand-thumbs-down-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div style="width:100%;">
+                <div style="display: block;">
+                    <div class="d-flex align-items-top" style="justify-content: space-between;">
+                        <div class="d-block">
+                            <h6 class="card-title font-weight-bold" onclick="location.href='/profile/<%= ans.authorId%>';" style="cursor:pointer;">
+                                <% if(currentUser && currentUser._id == ans.authorId){ %>
+                                    <i class="bi bi-chevron-compact-right"></i>
+                                <% } %>  
+                                <%= ans.author %>  <span class="blockquote-footer"> Answered <%= ans.date %> </span>
+                            </h6>
+                        </div>
+                        <div class="d-block">
+                            <div class="btn-group">
+                                <button class="btn btn-white btn-sm" type="button"data-bs-toggle="dropdown"aria-expanded="false">
+                                        <i class="bi bi-three-dots"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <!-- LOGIC FOR LIST OF UPVOTERS -->
+                                        <button type="button" class="btn btn-white btn-sm "data-bs-toggle="modal"data-bs-target="#_<%=ans._id%>upvotes">
+                                            Up Votes
+                                        </button>
+                                        
+                                    </li>
+                                    <li>
+                                        <!-- LOGIC FOR LIST OF DOWNVOTERS -->
+                                        <button type="button" class="btn btn-white btn-sm "data-bs-toggle="modal"data-bs-target="#_<%= ans._id%>downvotes">
+                                            Down Votes
+                                        </button>
+                                        
+                                    </li>
+
+                                    <% if( currentUser && currentUser._id == ans.authorId){ %>  
+                                    <li>
+                                        <button type="button" class="btn btn-white btn-sm   "data-bs-toggle="modal"data-bs-target="#_<%=ans._id%>editBtn">
+                                            Edit
+                                        </button>
+                                    </li>
+                                    <li class="border-2 border-top">
+                                        <form action="/collegeQuora/<%=reqQuestion._id%>/review/<%= ans._id %>/delete?_method=DELETE" method="POST">
+                                            <button class="btn btn-white btn-sm">Delete</button>
+                                        </form>
+                                    </li>
+                                    <% } %> 
+                                </ul>
+                            </div>       
+                        </div>
+                    </div>  
+                </div>
+                <div class="" style="display: block;">
+                    <%= ans.answer %> 
+                </div>
+                <% if(ans.images.length){ %> 
+                <div id="carouselSize">
+                    <div id="_<%= ans._id %>" class="carousel slide card-img" data-bs-ride="carousel">
+                        <% if(ans.images.length > 1){ %> 
+                        <div class="carousel-indicators">
+                            <% ans.images.forEach((img, i) => { %>  
+                                <button type="button" data-bs-target="#_<%=ans._id%>" data-bs-slide-to=" <%= i %>  " class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <% }) %> 
+                        </div>
+                        <% } %> 
+                        
+                        <div class="carousel-inner">
+                            <% ans.images.forEach((img, i) =>{ %> 
+                                <div class="card-img carousel-item <%= (i === 0)?'active':'' %>">
+                                    <img class="d-block w-100" src="<%= img.url %>" alt="...">
+                                </div>
+                            <% }) %> 
+                        </div>
+                        
+                        <% if(ans.images.length > 1){ %> 
+                        <button class="carousel-control-prev" type="button" data-bs-target="#_<%= ans._id %>" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#_<%= ans._id %>" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                        <% } %> 
+                    </div>
+                </div>
+                <% } %> 
+            </div>
+
+            <!-- Modal for upVotes -->
+            <div class="modal fade" id="_<%= ans._id %>upvotes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Up Voters - </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- list of upvoters -->
+                        <ul class="list-group">
+                            <% if(ans.upVoters.length == 0){ %> 
+                                <div class="alert alert-light" role="alert">
+                                    No Up Votes found !
+                                </div>
+                            <% }else{ %> 
+                                <% for(let upVoter of ans.upVoters){ %> 
+                                    <li class="list-group-item"> <%= upVoter.name %>  </li>
+                                <% } %> 
+                            <% } %> 
+                        </ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Modal for donwVotes-->
+            <div class="modal fade" id="_<%=ans._id%>downvotes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Down Voters -</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- List of donwvVoters -->
+                        <ul class="list-group">
+                            <% if(ans.downVoters.length == 0){ %> 
+                                <div class="alert alert-light" role="alert">
+                                    No Down Votes found !
+                                </div>
+                            <% }else{ %> 
+                                <% for(let downVoter of ans.downVoters){ %> 
+                                    <li class="list-group-item"> <%= downVoter.name %>  </li>
+                                <% } %> 
+                            <% } %> 
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Modal for editing answers -->
+            <div class="modal fade" id="_<%=ans._id%>editBtn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit answer -</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="my-3 mx-3 validated-form" action="/collegeQuora/<%=reqQuestion._id%>/edit/<%=ans._id %>?_method=PUT" method="POST" novalidate>
+                                <div class="mb-3">
+                                    <label for="question" class="form-label">Answer : </label>
+                                    <input type="text" class="form-control" id="question" value="<%= ans.answer%>"name="newAnswer" required>
+                                </div>
+                                <div class="container d-flex justify-content-center align-items-center mt-2 mb-3">
+                                    <button class="btn btn-primary">DONE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %> 
+

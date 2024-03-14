@@ -1,0 +1,19 @@
+<% layout('layouts/boilerplate') -%>
+<div class="container col-6 offset-3 my-5 border border-3">
+    <form class="my-3 mx-3 validated-form" action="/collegeQuora/new" method="POST" novalidate>
+        <div class="mb-3">
+            <label for="question" class="form-label">Question : </label>
+            <input type="text" class="form-control" id="question" placeholder="Enter your question here ..." name="question[question]" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please enter a valid question.
+            </div>
+        </div>
+
+        <div class="container d-flex justify-content-center align-items-center mt-2 mb-3">
+            <button class="btn btn-success">Add Question</button>
+        </div>
+    </form>
+</div>

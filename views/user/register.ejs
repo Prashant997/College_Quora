@@ -1,0 +1,62 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container row d-flex justify-content-center align-items-center mt-5 mb-3 smallS">
+    <div class="card shadow col-6 smallS">
+        <div class="card-body smallS">
+            <h5 class="card-title">Register</h5>
+            <form action="/register" method="POST" novalidate class="validated-form">
+                <div class="mb-3">
+                    <label class="form-label" for="name">Name: </label>
+                    <input id="name" class="form-control" type="text" placeholder="Name..." name="name" required autofocus autocapitalize="words">
+                    <div class="valid-feedback">
+                        Looks Good !
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a valid Name.
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                    <input name="username" type="text" class="form-control" placeholder="Username" aria-label="Username"
+                        aria-describedby="basic-addon1" required>
+                    <div class="valid-feedback">
+                        Looks Good !
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a valid username.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="email">Email: </label>
+                    <input id="email" class="form-control" type="email" placeholder="Email..." name="email" required >
+                    <div class="valid-feedback">
+                        Looks Good !
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a valid email.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password: </label>
+                    <input id="password" class="form-control" type="password" placeholder="Password..." name="password"
+                        required>
+                    <div class="valid-feedback">
+                        Looks Good !
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a valid password.
+                    </div>
+                </div>
+                <div class="mb-3" style="display: flex; justify-content: center;">
+                    <button class="btn btn-success">Submit</button>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <a class="btn btn-outline-dark" href="/login/google" role="button" style="text-transform:none">
+                        <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        Login with Google
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

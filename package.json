@@ -1,0 +1,43 @@
+{
+  "name": "college-quora",
+  "version": "1.0.0",
+  "description": "A platform where students can ask questions and connect with people who contribute unique insights and quality answers.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shutupRohit/College-Quora.git"
+  },
+  "keywords": [],
+  "author": "rohit-kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shutupRohit/College-Quora/issues"
+  },
+  "homepage": "https://github.com/shutupRohit/College-Quora#readme",
+  "dependencies": {
+    "cloudinary": "^1.26.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^4.4.1",
+    "darkmode-js": "^1.5.7",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "ejs-mate": "^3.0.0",
+    "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.1.0",
+    "express-session": "^1.17.2",
+    "fuse.js": "^6.4.6",
+    "joi": "^17.4.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.13.2",
+    "multer": "^1.4.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.1.0"
+  }
+}

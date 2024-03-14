@@ -1,0 +1,32 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark ">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">College-Quora</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class=" container collapse navbar-collapse" id="navbarNavAltMarkup">
+    
+            <% if(currentUser){ %>
+                <div class="navbar-links active navbar-nav my-1">
+                  <a class="nav-link active" aria-current="page" href="/">Home</a>
+                  <a class="nav-link" aria-current="page" href="/collegeQuora">All Questions</a>
+                  <a class="nav-link" aria-current="page" href="/profile/<%= currentUser._id %>">Profile</a>
+                </div>
+                <div class="navbar-nav ml-auto" style="margin-left: auto;">
+                  <form class="d-flex" action="/collegeQuora/search" method="GET">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchInput">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                  </form>
+                  <a href="/logout" class="nav-link ">Logout</a>
+                </div>
+                <% }else{ %> 
+                  <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/register">Register</a>
+                    <a class="nav-link active" href="/login">Sign-In</a>
+                  </div>
+            <% } %>
+        </div>
+    </div>
+</nav>

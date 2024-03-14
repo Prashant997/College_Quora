@@ -1,0 +1,32 @@
+<% layout('layouts/boilerplate') %>
+
+<div  class="row d-flex justify-content-center align-items-center mt-5 mb-3 col-xs-12 smallS" >
+    <div class="card shadow col-6 col-xs-12 smallS">
+        <div class="card-body" >
+            <div class="container d-flex justify-content-center align-iems-center my-3">
+                <h1 class="card-title bold fw-bold" style="border-bottom: blueviolet 2px solid;"> User Profile </h1>
+            </div>
+            
+            <div class="container my-3">
+                <label class="fw-bold" for="name">Name: </label>
+                <span class="fst-italic" id="name"> <%= reqUser.name %> </span>
+            </div>
+            <div class="container my-3">
+                <label class="fw-bold" for="username">Username : </label>
+                <span id="name"> <%= reqUser.username %> </span>
+            </div>
+            <div class="container my-3">
+                <label class="fw-bold" for="email">Email : </label>
+                <span  id="email"> <%= reqUser.emailId %> </span>
+            </div>
+            <div class="container my-3">
+                <label class="fw-bold" for="qAsked">Questions Asked : </label>
+                <span  id="email"> <%= reqUser.qAsked %> </span>
+            </div>
+            <div class="container my-3">
+                <label class="fw-bold" for="qAnswered">Questions Answered : </label>
+                <span  id="email"> <%= reqUser.qAnswered %> </span>
+            </div>
+        </div>
+    </div>
+</div>

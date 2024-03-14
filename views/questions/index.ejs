@@ -1,0 +1,82 @@
+<% layout('layouts/boilerplate') -%>
+
+<div id="newQuestionBlock" class="border mt-4 p-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <% if(currentUser){ %> 
+        <div class="container text-secondary">
+            <i class="bi bi-patch-check-fill"></i> <%= currentUser.name %> 
+        </div>
+        <div class="container text-dark mt-2">
+            Add your question here !
+        </div>
+    <% }else{ %> 
+        <div class="container text-dark mt-2">
+            Sign-In to add question !
+        </div>
+    <% } %> 
+    <!-- <a href="/collegeQuora/new">Ask your question here ...</a> -->
+
+</div>
+
+<!-- Modal -->
+<% if(currentUser){ %> 
+<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="my-3 mx-3 validated-form" action="/collegeQuora/new" method="POST" novalidate>
+                    <div class="my-2">
+                        <label for="heading" class="form-label">Heading : </label>
+                        <textarea type="text" class="form-control" id="heading" placeholder="Question heading ..."  name="question[heading]" style="height: 2rem;" required></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter a valid heading.
+                        </div>
+                    </div>
+                    <div class="my-3">
+                        <label for="question" class="form-label">Question : </label>
+                        <textarea type="text" class="form-control" id="question" placeholder="Enter your question here ..."  name="question[question]" style="height: 15rem;" required></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter a valid question.
+                        </div>
+                    </div>
+                    <div class="modal-footer container d-flex justify-content-center align-items-center mt-2 mb-3">
+                        <button class="btn btn-success">Add Question</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>  
+
+<hr>
+
+<% if(questions.length === 0){ %> 
+    <div class="alert alert-warning mt-3" role="alert" style="text-align: center;">
+        No Questions to show !
+    </div>
+<% } %> 
+
+<% for(let q of questions){ %>
+    <div id="questionBlock" class="card my-2 p-1">
+        <div class="card-body">
+            <span class="h6 card-title text-capitalize font-weight-bold" onclick="location.href='/profile/<%= q.authorId%>';" style="cursor:pointer;">
+                <i class="bi bi-caret-right-fill"></i> <%= q.author%>  
+            </span>
+            <span class="blockquote-footer"> Asked on  <%= q.date %> </span>
+            <div id="mainQuestion" class="mainQuestions" onclick="location.href='/collegeQuora/<%= q._id %>';" style="cursor:pointer;">
+                <span class="card-text lead text-decoration-none">
+                    <%= q.heading %> 
+                </span>
+
+
+            </div>
+        </div>
+    </div>
+<% } %>
